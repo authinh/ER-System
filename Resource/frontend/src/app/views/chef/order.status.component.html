@@ -1,0 +1,65 @@
+<div class="animated fadeIn mb-4">    
+    <div class="row" *ngIf="rows.length==0">
+        <div class="col-12">
+            <div class="card">
+                <p class="text-muted text-center my-4">Không có dữ liệu hiển thị</p>
+            </div>
+        </div>
+    </div>
+    <ngx-datatable *ngIf="rows.length>0"
+        #foodTable
+        class="material"
+        [rows]="rows"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'">
+        <ngx-datatable-column name="Món ăn" maxWidth="150">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+            <p><strong>{{row.name}}</strong></p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Bàn" maxWidth="250">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+            <strong>
+                <span *ngFor="let tb of row.table">{{tb.name}} </span>
+            </strong>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Số lượng" maxWidth="80" >
+            <ng-template let-row="row" ngx-datatable-cell-template>
+            <p><span>{{row.quantity}}</span></p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Tên khách hàng" maxWidth="250">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+            <p><span>{{row.customerName}}</span></p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Tình trạng" maxWidth="150">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span class="badge badge-primary" *ngIf="row.status==0">Đang đợi</span>
+                <span class="badge badge-warning" *ngIf="row.status==1">Đang chế biến</span>
+                <span class="badge badge-success" *ngIf="row.status==2">Chế biến xong</span>
+                <span class="badge badge-info" *ngIf="row.status==3">Đã phục vụ</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Hành động">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="row">
+                    <button type="button" *ngIf="row.status==0 && role=='CHEF'" class="btn btn-sm btn-warning mx-2" (click)="changeStatus(row, 1)">Chế Biến</button>
+                    <button type="button" *ngIf="row.status==1 && role=='CHEF'" class="btn btn-sm btn-success mx-2" (click)="changeStatus(row, 2)">Hoàn Thành</button>
+                    <button type="button" *ngIf="row.status==2 && role=='WAITER'" class="btn btn-sm btn-info mx-2" (click)="changeStatus(row, 3)">Phục vụ</button>
+                </div>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+<ng-template #deleteModal>
+    <div  class="modal-body text-center">
+        <p>Bạn muốn chuyển trạng thái món ăn
+            <strong>{{foodName}}</strong>?</p>
+        <button type="button" class="btn btn-sm btn-default mx-2" (click)="confirm()">Đồng ý</button>
+        <button type="button" class="btn btn-sm btn-primary mx-2" (click)="decline()">Không</button>
+    </div>
+</ng-template>

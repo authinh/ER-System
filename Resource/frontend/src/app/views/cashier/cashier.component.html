@@ -1,0 +1,101 @@
+<div class="animated fadeIn mb-4">
+    <div class="row">
+        <div class="col-12">
+            <form class="card" [formGroup]="filterForm" (ngSubmit)="filterFormSubmit()">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label for="name">Tìm kiếm:</label>
+                                <input formControlName="search" class="form-control" id="search" placeholder="Nhập tên hoặc số điện thoại" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="fa fa-dot-circle-o"></i> Tìm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" *ngIf="rows.length==0">
+        <div class="col-12">
+            <div class="card">
+                <p class="text-muted text-center my-4">Không có dữ liệu hiển thị</p>
+            </div>
+        </div>
+    </div>
+    <ngx-datatable *ngIf="rows.length>0"
+        #orderTable
+        class="material"
+        [rows]="rows"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [externalPaging]="true"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        [limit]="page.size"
+        (page)='setPage($event)'
+        >
+
+        <!-- Row Detail Template -->
+        <ngx-datatable-row-detail [rowHeight]="100" #rowDetail>
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                <div style="padding-left:35px;">
+                    <div><strong> Chi Tiết </strong></div>
+                    <ul>
+                        <li>Thời gian đặt bàn:{{row.datetime |  date:'dd/MM/yyyy hh:mm'}}</li>
+                    </ul>
+                    <ul>
+                        <li>Ghi chú:{{row.note}}</li>
+                    </ul>
+                </div>
+            </ng-template>
+        </ngx-datatable-row-detail>
+
+        <!-- Column Templates -->
+        <ngx-datatable-column
+            [width]="50"
+            [resizeable]="false"
+            [sortable]="false"
+            [draggable]="false"
+            [canAutoResize]="false">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <button class="btn btn-link" (click)="toggleExpandRow(row)">
+                <i [class.icon-arrow-right]="!expanded" [class.icon-arrow-down]="expanded"></i>
+            </button>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="No." maxWidth="80">
+            <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+            <strong>{{rowIndex+1}}</strong>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Tên khách hàng" maxWidth="250">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <strong>{{row.customer.name}}</strong>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Bàn" maxWidth="250">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+             <li *ngFor="let table of row.tables">{{table.name}}</li>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Số điện thoại" maxWidth="150" >
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <span>{{row.customer.phone}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                <div class="row">
+                    <button type="button" class="btn btn-sm btn-secondary btn-success mx-2" routerLink="/manage/cashier/checkout/{{row.id}}">Thanh toán</button>
+                </div>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>

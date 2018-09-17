@@ -1,0 +1,88 @@
+
+  
+<div class="col-lg-12 pt-4">
+  <carousel [interval]="myInterval" [(activeSlide)]="activeSlideIndex">
+    <slide>
+      <img src="assets/img/img1.jpg" alt="first slide" style="display: block; width: 100%;height: 500px;">
+      <div class="carousel-caption d-none d-md-block">
+        <!-- <h3>First slide label</h3>
+        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> -->
+      </div>
+    </slide>
+    <slide>
+      <img src="assets/img/img2.jpg" alt="second slide" style="display: block; width: 100%;height: 500px;">
+      <div class="carousel-caption d-none d-md-block">
+        <!-- <h3>Second slide label</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
+      </div>
+    </slide>
+    <slide>
+      <img src="assets/img/img3.jpg" alt="third slide" style="display: block; width: 100%;height: 500px;">
+      <div class="carousel-caption d-none d-md-block">
+        <!-- <h3>Third slide label</h3>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> -->
+      </div>
+    </slide>
+  </carousel>
+
+  <div class="row pt-4">
+    <div *ngFor="let item of food" class="col-lg-4 col-md-6 mb-4">
+      <div class="card h-100 imagetable">
+        <a>
+          <img class="card-img-top" src="{{item.image}}" alt="">
+          <div class="middle">
+              <div class="text">
+                  <a href="javascript:void(0)" (click)="openModal()">Đặt món ăn</a>
+              </div>
+          </div>
+        </a>
+        <div class="card-body">
+           
+          <h4 class="card-title">
+            <a>{{item.name}}</a>
+          </h4>
+          <h5 class="p-0">{{item.price}} Đ</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav aria-label="page navigation" class="d-flex justify-content-center mb-5 mt-3">
+    <ul class="pagination">
+      <li class="page-item"><a (click)="pageDif()" href="#" aria-label="Previous" class="page-link"><span aria-hidden="true">Trước</span><span class="sr-only">Trang trước</span></a></li>
+      <li *ngFor="let item of pageNumber" class="page-item "><a (click)="getPage(item)" class="page-link">{{item}}</a></li>
+      <li class="page-item"><a (click)="pagePlus()" href="#" aria-label="Next" class="page-link"><span aria-hidden="true">Sau</span><span class="sr-only">Trang sau</span></a></li>
+    </ul>
+  </nav>
+</div>
+<ng-template #deleteModal>
+    <div class="modal-body text-center">
+        <p>Bạn phải đăng nhập để đặt bàn?</p>
+        <button type="button" class="btn btn-sm btn-default mx-2" (click)="confirm()">Đồng ý</button>
+        <button type="button" class="btn btn-sm btn-primary mx-2" (click)="decline()">Không</button>
+    </div>
+
+</ng-template>
+  <!-- <div class="products-grid col-xl-12 col-lg-8 order-lg-2">
+      <header class="product-grid-header">
+      </header>
+      <div class="row bg-white">
+      
+        <div *ngFor="let item of food" class="col-xl-4 col-sm-9">
+          <div class="product">
+            <div class="product-image">
+              <img src="{{item.image}}" style="width:200px;height: 200px;"  alt="product" class="img-fluid">
+            </div>
+            <div class="py-2">
+              <h3 class="h6 text-uppercase mb-1"><a href="detail.html" class="text-dark">{{item.name}}</a></h3><span class="text-muted">{{item.price}}$</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav aria-label="page navigation" class="d-flex justify-content-center mb-5 mt-3">
+        <ul class="pagination">
+          <li class="page-item"><a (click)="pageDif()" href="#" aria-label="Previous" class="page-link"><span aria-hidden="true">Trước</span><span class="sr-only">Trang trước</span></a></li>
+          <li *ngFor="let item of pageNumber" class="page-item "><a (click)="getPage(item)" class="page-link">{{item}}</a></li>
+          <li class="page-item"><a (click)="pagePlus()" href="#" aria-label="Next" class="page-link"><span aria-hidden="true">Sau</span><span class="sr-only">Trang sau</span></a></li>
+        </ul>
+      </nav>
+    </div> -->

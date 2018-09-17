@@ -1,0 +1,102 @@
+<div class="animated fadeIn mb-4">
+    <div class="row">
+        <div class="col-12">
+            <form class="card" [formGroup]="editorForm" (ngSubmit)="editorFormSubmit()">
+                <div class="card-header">
+                    <strong *ngIf="!userId">Tạo nhân viên</strong>
+                    <strong *ngIf="userId">Sửa nhân viên</strong>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="role">Chức vụ</label>
+                                <select class="form-control" id="role" formControlName="role">
+                                    <option value="1">Quản lý</option>
+                                    <option value="2">Thu ngân</option>
+                                    <option value="3">Đầu bếp</option>
+                                    <option value="4">Phục vụ</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="status">Trạng thái</label>
+                                <select class="form-control" id="status" formControlName="status">
+                                    <option value="ACTIVE">Hoạt động</option>
+                                    <option value="INACTIVE">Không hoạt động</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="username">Tài khoản *</label>
+                                <input formControlName="username" class="form-control" id="username" placeholder="Tài khoản" type="text" [ngClass]="{'is-invalid': isSubmited && editorForm.get('username').invalid}">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="editorForm.get('username').errors?.required">Trường này không được bỏ trống</span>
+                                    <span *ngIf="editorForm.get('username').errors?.message">{{editorForm.get('username').errors?.message}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="fullname">Họ và tên *</label>
+                                <input formControlName="fullname" class="form-control" id="fullname" placeholder="Họ và tên" type="text" [ngClass]="{'is-invalid': isSubmited && editorForm.get('fullname').invalid}">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="editorForm.get('fullname').errors?.required">Trường này không được bỏ trống</span>
+                                    <span *ngIf="editorForm.get('fullname').errors?.message">{{editorForm.get('fullname').errors?.message}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="password">Mật khẩu *</label>
+                                <input formControlName="password" class="form-control" id="password" placeholder="Mật khẩu" type="password" [ngClass]="{'is-invalid': isSubmited && editorForm.get('password').invalid}">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="editorForm.get('password').errors?.required">Trường này không được bỏ trống</span>
+                                    <span *ngIf="editorForm.get('password').errors?.message">{{editorForm.get('password').errors?.message}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="repassword">Nhập lại mật khẩu *</label>
+                                <input formControlName="repassword" class="form-control" id="repassword" placeholder="Nhập lại mật khẩu" type="password"
+                                    [ngClass]="{'is-invalid': isSubmited && editorForm.get('repassword').invalid}">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="editorForm.get('repassword').errors?.required">Trường này không được bỏ trống</span>
+                                    <span *ngIf="editorForm.get('repassword').errors?.message">{{editorForm.get('repassword').errors?.message}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="phone">Số điện thoại *</label>
+                                <input formControlName="phone" class="form-control" id="phone" placeholder="Số điện thoại" type="text" [ngClass]="{'is-invalid': isSubmited && editorForm.get('phone').invalid}">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="editorForm.get('phone').errors?.required">Trường này không được bỏ trống</span>
+                                    <span *ngIf="editorForm.get('phone').errors?.message">{{editorForm.get('phone').errors?.message}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="address">Địa chỉ *</label>
+                                <input formControlName="address" class="form-control" id="address" placeholder="Địa chỉ" type="text" [ngClass]="{'is-invalid': isSubmited && editorForm.get('address').invalid}">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="editorForm.get('address').errors?.required">Trường này không được bỏ trống</span>
+                                    <span *ngIf="editorForm.get('address').errors?.message">{{editorForm.get('address').errors?.message}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="fa fa-dot-circle-o"></i> Lưu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,139 @@
+<div class="animated fadeIn mb-4">
+    <div class="row">
+        <div class="col-12">
+            <form class="card" [formGroup]="filterForm" (ngSubmit)="filterFormSubmit()">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Tìm kiếm</label>
+                                <input formControlName="search" class="form-control" id="name" placeholder="Nhập tên hoặc số điện thoại" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="role">Chức vụ</label>
+                                <select class="form-control" id="role" formControlName="role">
+                                    <option value="-1">Tất cả</option>
+                                    <option value="1">Quản lý</option>
+                                    <option value="2">Thu ngân</option>
+                                    <option value="3">Đầu bếp</option>
+                                    <option value="4">Phục vụ</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="status">Trạng thái</label>
+                                <select class="form-control" id="status" formControlName="status">
+                                    <option value="-1">Tất cả</option>
+                                    <option value="1">Hoạt động</option>
+                                    <option value="0">Không hoạt động</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="fa fa-dot-circle-o"></i> Tìm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" *ngIf="rows.length==0">
+        <div class="col-12">
+            <div class="card">
+                <p class="text-muted text-center my-4">Không có dữ liệu</p>
+            </div>
+        </div>
+    </div>
+    <ngx-datatable *ngIf="rows.length>0"
+        #userTable
+        class="material"
+        [rows]="rows"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [externalPaging]="true"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        [limit]="page.size"
+        (page)='setPage($event)'>
+
+        <!-- Row Detail Template -->
+        <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow>
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                <div class="px-4">
+                <div><strong>Địa chỉ</strong></div>
+                <div>{{row.address}}</div>
+                </div>
+            </ng-template>
+        </ngx-datatable-row-detail>
+
+        <!-- Column Templates -->
+        <ngx-datatable-column
+            [width]="50"
+            [resizeable]="false"
+            [sortable]="false"
+            [draggable]="false"
+            [canAutoResize]="false">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <button class="btn btn-link" (click)="toggleExpandRow(row)">
+                <i [class.icon-arrow-right]="!expanded" [class.icon-arrow-down]="expanded"></i>
+            </button>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="STT" maxWidth="80">
+            <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+            <strong>{{rowIndex+1}}</strong>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Tài khoản" maxWidth="150">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <strong>{{row.username}}</strong>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Tên">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <strong>{{row.fullname}}</strong>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Số điện thoại">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <span>{{row.phone}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Chức vụ" maxWidth="100">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <span class="badge badge-success" *ngIf="row.role.name=='MANAGER'">Quản lý</span>
+            <span class="badge badge-warning" *ngIf="row.role.name=='CASHIER'">Thu ngân</span>
+            <span class="badge badge-info" *ngIf="row.role.name=='CHEF'">Đầu bếp</span>
+            <span class="badge badge-secondary" *ngIf="row.role.name=='WAITER'">Phục vụ</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Status" maxWidth="100">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <span class="badge badge-success" *ngIf="row.status=='ACTIVE'">Hoạt động</span>
+            <span class="badge badge-danger" *ngIf="row.status=='INACTIVE'">Không hoạt động</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                <div class="row">
+                    <button type="button" class="btn btn-sm btn-secondary mx-2" routerLink="/manage/user/edit/{{row.id}}">Sửa</button>
+                    <button type="button" class="btn btn-sm btn-danger mx-2" (click)="openModal(row)">Xóa</button>
+                </div>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+<ng-template #deleteModal>
+    <div class="modal-body text-center">
+        <p>Bạn chắc chắn muốn xóa <strong>{{deleteRow.username}}</strong>?</p>
+        <button type="button" class="btn btn-sm btn-default mx-2" (click)="confirm()" >Xóa</button>
+        <button type="button" class="btn btn-sm btn-primary mx-2" (click)="decline()" >Quay lại</button>
+    </div>
+</ng-template>

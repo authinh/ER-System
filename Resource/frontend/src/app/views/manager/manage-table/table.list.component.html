@@ -1,0 +1,70 @@
+<div class="animated fadeIn mb-4">
+    <div class="row">
+        <div class="col-12">
+            <form class="card" [formGroup]="filterForm" (ngSubmit)="filterFormSubmit()">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Tên bàn</label>
+                                <input formControlName="search" class="form-control" id="name" placeholder="Nhập tên bàn" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Số ghế</label>
+                                <input min="0" max="40" formControlName="numberOfSeating" class="form-control" id="numberOfSeating" placeholder="Nhập số ghế"
+                                    type="number">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="fa fa-dot-circle-o"></i> Tìm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <ngx-datatable #tableTable class="material" [rows]="rows" [columnMode]="'force'" [headerHeight]="50"
+        [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
+        [limit]="page.size" (page)='setPage($event)'>
+        <ngx-datatable-column name="STT" maxWidth="80">
+            <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <strong>{{rowIndex+1}}</strong>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Tên bàn" maxWidth="150">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                <strong>{{row.name}}</strong>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Số ghế" maxWidth="180">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                <strong>{{row.numberOfSeating}}</strong>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Ghi chú">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                <strong>{{row.note}}</strong>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                <button type="button" routerLink="/manage/table/edit/{{row.id}}" class="btn btn-sm btn-secondary mx-2">
+                    Sửa
+                </button>
+                <button type="button" class="btn btn-sm btn-danger mx-2" (click)="openModal(row)">Xóa</button>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+<ng-template #deleteModal>
+    <div class="modal-body text-center">
+        <p>Bạn chắc chắn muốn xóa
+            <strong>{{tableName}}</strong>?</p>
+        <button type="button" class="btn btn-sm btn-default mx-2" (click)="confirm()">Xóa</button>
+        <button type="button" class="btn btn-sm btn-primary mx-2" (click)="decline()">Quay lại</button>
+    </div>
+</ng-template>

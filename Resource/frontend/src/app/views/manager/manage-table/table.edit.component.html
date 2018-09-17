@@ -1,0 +1,43 @@
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<form *ngIf="tableDetail != null" [formGroup]="editForm" (ngSubmit)="onFormSubmit()">
+					<div *ngIf="idTable!=0" class="card-header">
+						<strong>Sửa thông tin bàn</strong>
+					</div>
+					<div *ngIf="idTable==0" class="card-header">
+						<strong>Tạo bàn</strong>
+					</div>
+					<div class="card-body">
+						<div class="form-group col-sm-12">
+							<label for="name">Tên bàn *</label>
+							<input type="text" id="name" formControlName="name" [(ngModel)]="tableDetail.name" class="form-control" value="{{tableDetail.name}}"
+							 [ngClass]="{'is-invalid': isSubmited && editForm.get('name').invalid}">
+							<div class="invalid-feedback">
+								Trường này không được bỏ trống
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label for="numberOfSeating">Số ghế *</label>
+							<input type="number" id="numberOfSeating" min="0" max="40" formControlName="numberOfSeating" [(ngModel)]="tableDetail.numberOfSeating" class="form-control"
+							 value="{{tableDetail.numberOfSeating}}" [ngClass]="{'is-invalid': isSubmited && editForm.get('numberOfSeating').invalid}">
+							<div class="invalid-feedback">
+								Trường này không được bỏ trống
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label id="exampleInputEmail1" for="exampleInputPassword1">Ghi chú</label>
+							<textarea type="text" formControlName="note" class="form-control" [(ngModel)]="tableDetail.note" value="{{tableDetail.note}}"></textarea>
+						</div>
+					</div>
+					<div class="card-footer">
+						<button type="submit" class="btn btn-sm btn-primary">
+							<i class="fa fa-dot-circle-o"></i> Lưu
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,56 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="card-group">
+            <div class="card p-4">
+              <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
+                <div class="card-body">
+                  <h1>ĐĂNG NHẬP</h1>
+                  <p class="text-muted">Đăng nhập vào tài khoản của bạn</p>
+                  <p class="text-danger">{{errorMessage}}</p>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="icon-user"></i>
+                      </span>
+                    </div>
+                    <input formControlName="username" type="text" class="form-control" placeholder="Tài khoản" [ngClass]="{'is-invalid': isSubmited && loginForm.get('username').invalid}">
+                    <div class="invalid-feedback">
+                      Trường này không được bỏ trống
+                    </div>
+                  </div>
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="icon-lock"></i>
+                      </span>
+                    </div>
+                    <input formControlName="password" type="password" class="form-control" placeholder="Mật khẩu" [ngClass]="{'is-invalid': isSubmited && loginForm.get('password').invalid}">
+                    <div class="invalid-feedback">
+                      Trường này không được bỏ trống
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-check checkbox">
+                        <input formControlName="remember" class="form-check-input" type="checkbox" value="" id="remember">
+                        <label class="form-check-label text-primary" for="remember">
+                          Ghi nhớ tài khoản
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-6 text-right">
+                      <button type="submit" class="btn btn-primary px-4">Đăng nhập</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

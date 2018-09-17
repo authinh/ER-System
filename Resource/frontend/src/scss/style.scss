@@ -1,0 +1,10 @@
+// If you want to override variables do it here
+@import "variables";
+
+// Import styles
+@import "~@coreui/coreui/scss/coreui";
+@import "~@swimlane/ngx-datatable/src/themes/material.scss";
+@import "~ngx-toastr/toastr.css";
+
+// If you want to add something do it here
+@import "custom";

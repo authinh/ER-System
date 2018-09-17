@@ -1,0 +1,192 @@
+<div class="animated fadeIn">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-5">
+                    <h4 class="card-title mb-0">Thống Kê</h4>
+                    <div class="small text-muted">Số lượng đơn đặt hàng và doanh thu</div>
+                </div>
+
+                <div class="col-sm-7 d-none d-md-block">
+                    <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                        <label class={{activeToggle0}}>
+                            <input name="options" id="option1" (click)="getStaticsLine(0)" autocomplete="off" type="radio"> Ngày
+                        </label>
+                        <label class={{activeToggle1}}>
+                            <input name="options" id="option2" (click)="getStaticsLine(1)" autocomplete="off" checked="" type="radio"> Tháng
+                        </label>
+                        <label class={{activeToggle2}}>
+                            <input name="options" id="option3" (click)="getStaticsLine(2)" autocomplete="off" type="radio"> Năm
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="chart-wrapper" style="margin-top:40px;">
+                <div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"
+                    class="chartjs-size-monitor">
+                    <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                        <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                    </div>
+                    <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                        <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                    </div>
+                </div>
+                <!-- bieu do -->
+                <div class="chart chartjs-render-monitor" style="display: block; ">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="display: block;">
+                                <canvas baseChart height="25vh" width="80vw" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
+                                    [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-6" style="margin-bottom: 10px">
+                            <table class="table table-responsive table-condensed">
+                                <tr>
+                                    <th *ngFor="let label of lineChartLabels">{{label}}</th>
+                                </tr>
+                                <tr *ngFor="let d of lineChartData">
+                                    <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
+                                </tr>
+                            </table>
+                            <button (click)="randomize()">CLICK</button>
+                        </div> -->
+                    </div>
+
+                </div>
+                <div id="main-chart-tooltip" class="chartjs-tooltip center" style="opacity: 0; left: 493px; top: 276.048px;">
+                    <div class="tooltip-header">
+                        <div class="tooltip-header-item">T</div>
+                    </div>
+                    <div class="tooltip-body">
+                        <div class="tooltip-body-item">
+                            <span class="tooltip-body-item-color" style="background-color: rgb(255, 255, 255);"></span>
+                            <span class="tooltip-body-item-label">My First dataset</span>
+                            <span class="tooltip-body-item-value">173</span>
+                        </div>
+                        <div class="tooltip-body-item">
+                            <span class="tooltip-body-item-color" style="background-color: rgb(255, 255, 255);"></span>
+                            <span class="tooltip-body-item-label">My Second dataset</span>
+                            <span class="tooltip-body-item-value">93</span>
+                        </div>
+                        <div class="tooltip-body-item">
+                            <span class="tooltip-body-item-color" style="background-color: rgb(255, 255, 255);"></span>
+                            <span class="tooltip-body-item-label">My Third dataset</span>
+                            <span class="tooltip-body-item-value">65</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row text-center">
+                <div class="col-sm-12 col-md mb-sm-6 mb-0">
+                    <div class="text-muted">Số lượng đơn hàn</div>
+                    <strong>{{orderTotal}} đơn hang</strong>
+                    <div class="progress progress-xs mt-2">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md mb-sm-6 mb-0">
+                    <div class="text-muted">Doanh thu đơn hàng</div>
+                    <strong>{{incomeTotal}} VND</strong>
+                    <div class="progress progress-xs mt-2">
+                        <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            Bảng xếp hạng
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="btn-group btn-group-toggle col-sm-12 float-right" data-toggle="buttons">
+                    <label class={{activeToggle3}}>
+                        <input name="options" id="option2" (click)="getRankByDate(-1)" checked="" type="radio"> Tháng
+                    </label>
+                    <label class={{activeToggle4}}>
+                        <input name="options" id="option3" (click)="getRankByDate(-12)" type="radio"> Năm
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4 class="card-title mb-0">Các món được đặt nhiều nhất</h4>
+                </div>
+
+                <div class="col-sm-6 d-none d-md-block">
+                    <h4 class="card-title mb-0">Mật độ đơn đặt hàng theo giờ</h4>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- biểu đồ thứ 2 -->
+                    <div>
+                        <div style="display: block">
+                            <canvas baseChart [datasets]="barChartData" [colors]="barChartColors" [labels]="barChartLabels" [options]="barChartOptions"
+                                [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div style="display: block">
+                        <canvas baseChart [datasets]="polarAreaChartData" [labels]="polarAreaChartLabels" [legend]="polarAreaLegend" [chartType]="polarAreaChartType"
+                            (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+            <br>
+            <table class="table table-responsive-sm table-hover table-outline mb-0">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Hạng</th>
+                        <th>Món ăn</th>
+                        <th>Giá</th>
+                        <th class="text-center">Bán được</th>
+                        <th>Doanh thu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of rows; let i = index" [attr.data-index]="i" >
+                        <td class="text-center">
+                            {{i+1}}
+                        </td>
+                        <td>
+                            <div class="row" >
+                                <div class="avatar">
+                                    <img src="{{row.image}}" class="img-avatar"
+                                        alt="admin@bootstrapmaster.com">
+                                </div>
+                                <div class="pl-4">{{row.name}}</div>
+                            </div>
+                        </td>
+                        <td>
+                                {{row.price}} VND
+                        </td>
+                        <td class="text-center">
+                            <div class="clearfix">
+                                    {{row.quantity}} Món
+                            </div>
+                        </td>
+                        <td>
+                            <div class="clearfix">
+                                    {{row.quantity*row.price}} VND
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

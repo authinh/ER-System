@@ -1,0 +1,37 @@
+agm-map {
+    height: 600px;
+    margin: 30px;
+    min-height: 500px;
+}
+
+//colors
+$color_medium_purple_approx: #9a6ee2;
+
+.svg-icon {
+	width: 18px;
+	height: 18px;
+	stroke: currentColor;
+	stroke-width: 3;
+	vertical-align: text-bottom;
+	&.svg-icon-light {
+		stroke-width: 2;
+	}
+}
+.text-primary {
+	color: $color_medium_purple_approx !important;
+}
+.mb-3 {
+	margin-bottom: 1rem !important;
+}
+.my-3 {
+	margin-bottom: 1rem !important;
+}
+.h-3rem {
+	height: 3rem !important;
+}
+.w-3rem {
+	width: 3rem !important;
+}
+svg:not(:root) {
+	overflow: hidden;
+}

@@ -1,0 +1,9 @@
+{
+    "/proxy/*": {
+    "target": "https://ctwgroup.net",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {"^/proxy" : ""}
+    }
+  }

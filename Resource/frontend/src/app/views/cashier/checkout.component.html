@@ -1,0 +1,86 @@
+<div class="card">
+	<div class="card-header">
+		Hóa Đơn: 
+		<strong>#{{orderId}}</strong>		
+	</div>
+	<div class="card-body">
+		<div class="row mb-4">
+			<div class="col-sm-6">
+				<h6 class="mb-3">Tên khách hàng:</h6>
+				<div>
+					<strong>{{name}}</strong>
+				</div>
+				<div>Số điện thoại: {{phone}}</div>
+			</div>
+
+			<div class="col-sm-6">
+				<h6 class="mb-3">Thông tin hóa đơn:</h6>
+				<div>Hóa Đơn: 
+					<strong>#{{orderId}}</strong>
+				</div>
+				<div>{{dateNow}}</div>
+			</div>
+		</div>
+		<div class="table-responsive-sm">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th class="center">#</th>
+						<th></th>
+						<th class="center">Số lượng</th>
+						<th class="right">Đơn giá</th>
+						<th class="right">Tổng</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let detail of orderDetail; let i = index">
+						<td class="center">{{i + 1}}</td>
+						<td class="left">{{detail.item}}</td>
+						<td class="center">{{detail.quantity}}</td>
+						<td class="right">{{detail.unitPrice}}</td>
+						<td class="right">{{detail.total}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="row">
+			<div class="col-lg-4 col-sm-5">
+			</div>
+			<div class="col-lg-4 col-sm-5 ml-auto">
+				<div [formGroup]="myGroup">
+				<table class="table table-clear">
+					<tbody>
+						<tr>
+							<td class="left">
+                                <label for="total"><strong>Tổng chi phí: </strong></label>
+							</td>
+							<td class="right">
+								<input formControlName="total" class="form-control" id="total" placeholder="Total" type="number" name="total" readonly="true" >
+							</td>
+						</tr>
+						<tr>
+							<td class="left">
+                                <label for="receive"><strong>Nhận: </strong></label>
+							</td>
+							<td class="right">
+								<input formControlName="receive" class="form-control" id="receive" placeholder="Receive"type="number" name="receive" (change)="changeReceive($event)">
+							</td>
+						</tr>
+						<tr>
+							<td class="left">
+                                <label for="return"><strong>Trả lại: </strong></label>
+							</td>
+							<td class="right">
+								<input formControlName="return" class="form-control" id="return" placeholder="Return" type="number" name="return" readonly="true">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+    			</div>
+				<button class="btn btn-success" (click)="checkOutAction()">
+					<i class="fa fa-usd"></i> Thanh toán hóa đơn
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,245 @@
+<div class="row">
+    <div class="col-sm-12 col-xs-12 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-font-awesome"></i> Thực đơn
+                <a (click)="ScrollDown()" class="float-right" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="icon-bell"></i>
+                    <span class="badge badge-pill badge-danger">{{page.totalElements}}</span>
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4 col-xs-4 col-lg-4">
+                        <div class="sidebar-block px-3 px-lg-0 mr-lg-4">
+
+                            <div id="categoriesMenu" class="" style="font-size: 0.8em">
+
+                                <div *ngFor="let categoryFather of foodCategoriesFather" class="nav nav-pills flex-column mt-4 mt-lg-0">
+                                    <a href="javascript:void(0)" (click)="getCategoryAndPage(categoryFather.id,0,categoryFather.name)" class="nav-link d-flex justify-content-between mb-2 ">
+                                        <span>{{categoryFather.name}}</span>
+                                    </a>
+                                    <div *ngFor="let child of foodCategoriesChild" class="nav nav-pills flex-column ml-3">
+                                        <a *ngIf="child.parent.id == categoryFather.id" href="javascript:void(0)" (click)="getCategoryAndPage(child.id,0,child.name)" class="nav-link mb-2">
+                                            {{child.name}}
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 col-xs-12 col-lg-8">
+                        <div class="row">
+                            <div *ngFor="let item of food" class="col-sm-4 col-xs-4 col-lg-4 text-center mb-5">
+                                <div class="imagetable">
+                                    <img src="{{item.image}}" alt="{{item.name}}" class="img-thumbnail img-responsive center-block" style="max-width:100%;height: auto;">
+                                    <div class="middle">
+                                        <div class="text">
+                                            <a href="javascript:void(0)" (click)="pickToOrder(item)">Chọn</a>
+                                        </div>
+                                    </div>
+                                    <div class="py-2">
+                                        <h3 class="h6 text-uppercase mb-1">
+                                            <a style="font-size: 0.8em" class="text-dark">{{item.name}}</a>
+                                        </h3>
+                                        <span class="text-muted">{{item.price}} đ</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <ul _ngcontent-c0="" class="pagination">
+                            <li _ngcontent-c0="" class="page-item">
+                                <a _ngcontent-c0="" (click)="pageDif()" class="page-link" href="javascript:void(0)">Sau</a>
+                            </li>
+                            <li *ngFor="let item of pageFoodNumber" _ngcontent-c0="" class="page-item">
+                                <a _ngcontent-c0="" class="page-link" (click)="getPage(item)" href="javascript:void(0)">{{item}}</a>
+                            </li>
+                            <li _ngcontent-c0="" class="page-item">
+                                <a _ngcontent-c0="" class="page-link" (click)="pagePlus()" href="javascript:void(0)">Trước</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-xs-12 col-lg-6">
+        <div class="col-sm-12 col-xs-12 col-lg-12 mb-2">
+                        <p-carousel headerText="Có thể bạn thích" [value]="recommendFoods">
+                                <ng-template let-item pTemplate="item">
+                                    <div class="ui-grid ui-grid-responsive">
+                                        <div class="ui-grid-row">
+                                                <div class="imagetable center-block" style="height: 100%;">
+                                                        <img src="{{item.image}}" alt="{{item.name}}" class="img-avatar center-block" style="width:auto;height: 10em;">
+                                                        
+                                                        <div class="py-2">
+                                                            <h3 class="h6 text-uppercase mb-1">
+                                                                <a style="font-size: 0.8em" class="text-dark">{{item.name}}</a>
+                                                            </h3>
+                                                            <span class="text-muted">{{item.price}} đ</span>
+                                                            
+                                                        </div>
+                                                        <button type="button" (click)="pickToOrder(item)" class="btn btn-block btn-warning">Chọn</button>
+                                                    </div>       
+                                        </div>
+                                        
+                                    </div>
+                                </ng-template>
+                            </p-carousel>
+        </div>
+        <div class="col-sm-12 col-xs-12 col-lg-12">
+            <!-- <div id="thucdon" class="card">
+                <div class="card-header">
+                    <i class="fa fa-lemon-o fa-lg mt-4"></i> Các món ăn
+                </div>
+                <ngx-datatable #orderTable class="material" [rows]="rows" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+                    [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size"
+                    (page)='setPage($event)'>
+
+                    <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow>
+                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                            <div class="px-9">
+                                <div>
+                                    <strong>Ghi chú</strong>
+                                </div>
+                                <textarea (change)="onKeyNote(row,$event)" type="text" rows="2" cols="120" value={{row.note}}></textarea>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-row-detail>
+
+                    <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false">
+                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                            <button class="btn btn-link" (click)="toggleExpandRow(row)">
+                                <i [class.icon-arrow-right]="!expanded" [class.icon-arrow-down]="expanded"></i>
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Món ăn">
+                        <ng-template let-rowIndex="rowIndex" let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                            {{rowIndex+1}}. {{row.name}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Loại">
+                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                            {{row.name}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Số lượng">
+                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                            <input type="number" *ngIf="row.status==0" style="max-width:30px" min="1" value={{row.quantity}} (change)="onKey(row,$event)">
+                            <input type="number" *ngIf="row.status!=0" readonly style="max-width:30x" min="1" value={{row.quantity}} (change)="onKey(row,$event)">
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Giá">
+                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                            {{row.price*row.quantity}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Trạng thái" maxWidth="100">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <span class="badge badge-primary" *ngIf="row.status==0">Đang đợi</span>
+                            <span class="badge badge-warning" *ngIf="row.status==1">Chế biến</span>
+                            <span class="badge badge-success" *ngIf="row.status==2">Chế bến xong</span>
+                            <span class="badge badge-info" *ngIf="row.status==3">Phục vụ</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Hành động">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" let-expanded="expanded" ngx-datatable-cell-template>
+                            <i class="fa fa-trash-o fa-lg mx-2" *ngIf="row.status==0" (click)="openModal(rowIndex)"></i>
+                      
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+                <div class="card-footer">
+                    <div>
+                        <strong>Tổng cộng : {{total}} đ </strong>
+                    </div>
+                    <button type="submit" (click)="submitOrder()" class="btn btn-sm btn-primary">
+                        <i class="fa fa-dot-circle-o"></i> Đặt món</button>
+                    <button type="reset" (click)="openModal()" class="btn btn-sm btn-danger">
+                        <i class="fa fa-ban"></i> Làm mới</button>
+                </div>
+            </div> -->
+
+            <p-table id="thucdon" [value]="orderFood" sortField="brand" sortMode="single" >
+                    <ng-template pTemplate="header">
+                        <tr>
+                                <th>Món ăn</th>
+                                <th>Số lượng</th>
+                                
+                                <th>Giá</th>
+                                <th>Trạng thái</th>
+                                <th>Hàng động</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                        <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.category].index  == rowIndex">
+                            <td colspan="5">
+                                <span style="font-weight:bold">{{rowData.category}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                                <td>
+                                        {{rowData.name}}
+                                    </td>
+                                    <td>
+                                        
+                                        <input type="number" *ngIf="rowData.status==0" style="max-width:40px" min="1" value={{rowData.quantity}} (change)="onKey(rowData,$event)">
+                                        <input type="number" *ngIf="rowData.status!=0" readonly style="max-width:40px" min="1" value={{rowData.quantity}} (change)="onKey(rowData,$event)">
+                                
+                                </td>
+                                    <td>
+                                        {{rowData.price*rowData.quantity}}
+                                    </td>
+                                    <td>
+                                        
+                                        <span class="badge badge-primary" *ngIf="rowData.status==0">Đang đợi</span>
+                                        <span class="badge badge-warning" *ngIf="rowData.status==1">Chế biến</span>
+                                        <span class="badge badge-success" *ngIf="rowData.status==2">Chế bến xong</span>
+                                        <span class="badge badge-info" *ngIf="rowData.status==3">Phục vụ</span>
+                                  
+                                </td>
+                                <td>
+                                        <i class="fa fa-trash-o fa-lg mx-2" *ngIf="rowData.status==0" (click)="openModal(rowData)"></i>
+                                </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+             
+                <div class="card-footer">
+                    <div>
+                        <strong>Tổng cộng : {{total}} đ </strong>
+                    </div>
+                    <button *ngIf="isStaff==false &&  orderDTO.status == 'BOOKED'" type="submit" (click)="submitOrder()" class="btn btn-sm btn-primary">
+                        <i class="fa fa-dot-circle-o"></i>Đặt món</button>
+                    <button *ngIf="isStaff==true" type="submit" (click)="submitOrder()" class="btn btn-sm btn-primary">
+                        <i class="fa fa-dot-circle-o"></i> Chuẩn bị</button>
+                    <button  *ngIf="isStaff==false &&  orderDTO.status == 'BOOKED'" type="reset" (click)="openModal()" class="btn btn-sm btn-danger">
+                        <i class="fa fa-ban"></i> Làm mới</button>
+                    <button  *ngIf="isStaff==true" type="reset" (click)="openModal()" class="btn btn-sm btn-danger">
+                        <i class="fa fa-ban"></i> Làm mới</button>
+                </div>
+
+        </div>
+    </div>
+</div>
+<ng-template #deleteModal>
+    <div *ngIf="deleteId!=null" class="modal-body text-center">
+        <p>Bạn chắc chắn muốn xóa sản phẩm này
+            <strong>{{foodName}}</strong>?</p>
+        <button type="button" class="btn btn-sm btn-default mx-2" (click)="confirm()">Đồng ý</button>
+        <button type="button" class="btn btn-sm btn-primary mx-2" (click)="decline()">Không</button>
+    </div>
+    <div *ngIf="deleteId==null" class="modal-body text-center">
+        <p>Bạn chắc chắn muốn xóa toàn bộ sản phẩm?</p>
+        <button type="button" class="btn btn-sm btn-default mx-2" (click)="confirm()">Đồng ý</button>
+        <button type="button" class="btn btn-sm btn-primary mx-2" (click)="decline()">Không</button>
+    </div>
+
+
+</ng-template>

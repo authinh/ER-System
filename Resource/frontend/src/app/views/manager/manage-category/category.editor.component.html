@@ -1,0 +1,53 @@
+<div class="animated fadeIn mb-4">
+    <div class="row">
+        <div class="col-12">
+            <form class="card" [formGroup]="editorForm" (ngSubmit)="editorFormSubmit()">
+                <div class="card-header">
+                    <strong *ngIf="!categoryId">Tạo danh mục thực đơn</strong>
+                    <strong *ngIf="categoryId">Sửa danh mục thực đơn</strong>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Tên *</label>
+                                <input formControlName="categoryname" class="form-control" id="categoryname" placeholder="Tên" type="text" [ngClass]="{'is-invalid': isSubmited && editorForm.get('categoryname').invalid}">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="editorForm.get('categoryname').errors?.required">Trường này không được bỏ trống</span>
+                                    <span *ngIf="editorForm.get('categoryname').errors?.message">{{editorForm.get('categoryname').errors?.message}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="parent">Danh mục mẹ</label>
+                                    <select class="form-control" id="parent" formControlName="parent" >
+                                        <option value="" selected>-- Không có --</option>
+                                        <option *ngFor="let item of listCategoryParent" value="{{item.id}}">{{item.name}}</option>
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="description">Mô tả</label>
+                                <textarea formControlName="description" class="form-control" id="description" placeholder="Mô tả" type="text" [ngClass]="{'is-invalid': isSubmited && editorForm.get('description').invalid}">
+                                </textarea>
+                                    <div class="invalid-feedback">
+                                    <span *ngIf="editorForm.get('description').errors?.required">Trường này không được bỏ trống</span>
+                                    <span *ngIf="editorForm.get('description').errors?.message">{{editorForm.get('description').errors?.message}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="fa fa-dot-circle-o"></i> Lưu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

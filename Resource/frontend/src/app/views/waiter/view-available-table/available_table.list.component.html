@@ -1,0 +1,142 @@
+<ngx-spinner></ngx-spinner>
+<div *ngIf="show == true "class="animated fadeIn mb-4">
+    <div class="row">
+        <div class="col-12">
+            <form class="card">
+                <div class="card-body" >
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div >
+                                <label for="name">Hẹn giờ đặt bàn</label> 
+                                <br>                      
+                                <p-calendar  [(ngModel)]="value" [ngModelOptions]="{standalone: true}" (onClose)="onSelect(value)" [showTime]="true"></p-calendar>
+                            </div>
+                        </div>
+                        <ng-container *ngIf="isStaff == true">
+                        <div class="col-md-6">
+                            <div >
+                                <label for="name">Số điện thoại</label>
+                                <input min="0" max="40" [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}"  class="form-control" id="phoneNumber" placeholder="Nhập số điện thoại"
+                                    type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div >
+                                <h4 style="color: white">Kiểm tra</h4>
+                                <button type="submit" (click)="CheckProfile()" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-dot-circle-o"></i> Kiểm tra
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="name">Tên khách hàng:  </label>
+                                <h4>{{orderDTO.customer.name}}</h4>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="name">Số điện thoại: </label>
+                                <h4>{{orderDTO.customer.phone}}</h4>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                    <label for="name">Giới tính: </label>
+                                    <br>
+                                    <h4>{{gender}} </h4>
+
+                            </div>
+                        </div>
+                        </ng-container>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <!-- <div class="row" *ngIf="rows.length==0">
+        <div class="col-12">
+            <div class="card">
+                <p class="text-muted text-center my-4">Không có dữ liệu hiển thị</p>
+            </div>
+        </div>
+    </div> -->
+     <div class="row"> 
+    <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-font-awesome"></i> Danh sách bàn trống 
+                      
+                </div>
+                <div class="card-body">
+                    <div class="row">
+
+                        <div *ngFor="let table of inactiveTables" class="imagetable col-sm-2 col-xs-3 text-center mb-5">
+                            <img src="assets/img/avatars/table.png"
+                                alt="Avatar" class="image" style="width:100%">
+                            <div>Tên bàn:{{table.name}}</div>
+                            <div>Ghế ngồi: {{table.numberOfSeating}}</div>
+                                <div class="form-check">
+                                    <p-checkbox (onChange)="check(table, $event)" value="table"></p-checkbox>
+                                    <label class="form-check-label" for="materialUnchecked">chọn</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <nav aria-label="page navigation" class="d-flex justify-content-center mb-5 mt-3">
+                        <ul class="pagination">
+                            <li class="page-item"><a (click)="pageDif()" aria-label="Previous" class="page-link"><span aria-hidden="true">Trước</span></a></li>
+                            <li *ngFor="let item of pageNumber" class="page-item "><a (click)="getPage(item)" class="page-link">{{item}}</a></li>
+                            <li class="page-item"><a (click)="pagePlus()" aria-label="Next" class="page-link"><span aria-hidden="true">Sau</span></a></li>
+                          </ul>
+                </nav>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-bg btn-primary mx-2" (click)="bookTable()">Đặt bàn</button>
+                    </div>
+                   
+                </div>
+            </div>
+        </div> 
+<!--     
+    <div class="animated fadeIn mb-4">
+        <div class="row">
+            <div class="col-12">
+                <ngx-datatable #tableTable class="material" [rows]="rows" [columnMode]="'force'" [headerHeight]="50"
+                    [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
+                    [limit]="page.size" (page)='setPage($event)'>
+                    <ngx-datatable-column name="No.">
+                        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <strong>{{rowIndex+1}}</strong>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Table name">
+                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                            <strong>{{row.name}}</strong>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Number of Seating" >
+                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                            <strong>{{row.numberOfSeating}}</strong>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Book">
+                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                            <p-checkbox (onChange)="check(row, $event)" value="row"></p-checkbox>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-bg btn-primary mx-2" (click)="bookTable()">Book</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+
+
+<!-- </div> -->

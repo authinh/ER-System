@@ -1,0 +1,129 @@
+<ngx-spinner></ngx-spinner>
+<div *ngIf="show == true" class="animated fadeIn mb-4">
+    <div *ngIf="isStaff==true" class="row">
+        <div class="col-12">
+            <form class="card">
+                <div class="card-body">
+                    <div class="row">              
+                        <div class="col-md-6">
+                            <div>
+                                <label for="name">Số điện thoại của khách</label>
+                                <input [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" class="form-control" id="name" placeholder="Nhập số điện thoại" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" (click)="getOrdersByPhone()" class="btn btn-sm btn-primary">
+                        <i class="fa fa-dot-circle-o"></i> Kiểm tra
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" *ngIf="rows.length==0">
+        <div class="col-12">
+            <div class="card">
+                <p class="text-muted text-center my-4">Không có dữ liệu hiển thị</p>
+            </div>
+        </div>
+    </div>
+    <!-- <ngx-datatable *ngIf="rows.length>0" -->
+    <ngx-datatable
+        #table_bookingTable
+        class="material"
+        [rows]="rows"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [externalPaging]="true"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        [limit]="page.size"
+        (page)='setPage($event)'>
+
+        <!-- Row Detail Template -->
+        <!-- <ngx-datatable-row-detail [rowHeight]="90" #rowDetail>
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                <div style="padding-left:35px;">
+                    <strong>Danh sách bàn : </strong>
+                     <span *ngFor="let table of row.tables">    
+                     <span class="badge badge-info">{{table.name}}</span>
+                     </span> 
+                    
+                </div>
+                <span>{{row.note}}</span>
+            </ng-template>
+        </ngx-datatable-row-detail> -->
+
+        <!-- Column Templates -->
+        <ngx-datatable-column
+            [width]="50"
+            [resizeable]="false"
+            [sortable]="false"
+            [draggable]="false"
+            [canAutoResize]="false">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <!-- <button class="btn btn-link" (click)="toggleExpandRow(row)">
+                <i [class.icon-arrow-right]="!expanded" [class.icon-arrow-down]="expanded"></i>
+            </button> -->
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="No." maxWidth="80">
+            <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+            <strong>{{rowIndex+1}}</strong>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Thời gian đặt bàn">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <strong>{{row.datetime |  date:'dd/MM/yyyy hh:mm'}}</strong>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Danh sách bàn" maxWidth="200">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <!-- <span>{{row.note}}</span> -->
+            <div>
+                <span *ngFor="let table of row.tables">    
+                <span class="badge badge-info">{{table.name}}</span>
+                </span> 
+               
+           </div>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Trạng thái" maxWidth="150">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <span class="badge badge-success" *ngIf="row.status=='BOOKED'">Đã đặt</span>
+            <span class="badge badge-warning" *ngIf="row.status=='DELETED'">Hủy bàn</span>
+            <span class="badge badge-warning" *ngIf="row.status=='INACTIVE'">Ngừng hoạt động</span>
+            <span class="badge badge-info" *ngIf="row.status=='ACTIVE'">Hoạt động</span>
+            <span class="badge badge-secondary" *ngIf="row.status=='CLOSED'">Đã thanh toán</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Tên khách hàng" maxWidth="200">
+                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                        <span>{{row.customer.name}}</span>
+                </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Số điện thoại" maxWidth="200">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                    <span>{{row.customer.phone}}</span>
+            </ng-template>
+    </ngx-datatable-column>
+        <ngx-datatable-column name="Hành động">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                <div class="row">
+                    <button type="button" class="btn btn-sm btn-secondary mx-2" routerLink="/manage/order/{{row.id}}">Quản lý đặt món</button>
+                    <button type="button" class="btn btn-sm btn-danger mx-2" (click)="openModal(row)">Hủy bàn</button>
+                </div>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+<ng-template #deleteModal>
+    <div class="modal-body text-center">
+        <p>Bạn muốn xóa  <strong>{{deleteRow.username}}</strong>?</p>
+        <button type="button" class="btn btn-sm btn-default mx-2" (click)="confirm()" >Đồng ý</button>
+        <button type="button" class="btn btn-sm btn-primary mx-2" (click)="decline()" >Không</button>
+    </div>
+</ng-template>

@@ -1,0 +1,45 @@
+
+
+<div class="row pt-4">
+  <div class="col-lg-3 pt-4">
+
+    <!-- <div class="col-xl-12 col-lg-12 order-lg-12 pt-4">
+      <div class="sidebar-block px-3 px-lg-0 mr-lg-4 pt-4">
+        <a class="block-toggler">Thực đơn</a>
+        <div >
+
+          <div  *ngFor="let categoryFather of foodCategoriesFather" class="nav nav-pills flex-column mt-4 mt-lg-0">
+            <a href="javascript:void(0)" (click)="getCategoryAndPage(categoryFather.id,0)" class="nav-link d-flex justify-content-between mb-2 ">
+              <span>{{categoryFather.name}}</span>
+            </a>
+            <div *ngFor="let child of foodCategoriesChild" class="nav nav-pills flex-column ml-3">
+              <a *ngIf="child.parent.id == categoryFather.id" href="javascript:void(0)" (click)="getCategoryAndPage(child.id ,0)" class="nav-link mb-2">
+                  {{child.name}}
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
+    <div class="list-group pt-4">
+        <ng-container  *ngFor="let categoryFather of foodCategoriesFather" >
+            <a href="javascript:void(0)" (click)="getCategoryAndPage(categoryFather.id,0)" class="list-group-item">
+              <span style="color:black"><strong>{{categoryFather.name}}</strong></span>
+            </a>
+            <ng-container *ngFor="let child of foodCategoriesChild">
+              <a style="color:black" *ngIf="child.parent.id == categoryFather.id" href="javascript:void(0)" (click)="getCategoryAndPage(child.id ,0)" class="list-group-item">
+                {{child.name}}
+              </a>
+            </ng-container>
+
+          </ng-container>
+    </div>
+
+  </div>
+  <div class="col-lg-9 pt-4">
+    <app-homepagedetail [categoryID]="categoryID" [page]="page"></app-homepagedetail>
+  </div>
+</div>
